@@ -4,25 +4,17 @@ import java.util.*;
 public class Gamestate {
 	
 	int[] hands = new int[4];
-	boolean loop = false;
+//	boolean loop = false;
 	ArrayList<Integer> fLink = new ArrayList<Integer>();
 	ArrayList<Integer> bLink = new ArrayList<Integer>();
+	int turn;
 	
-	public Gamestate(int r, int l, int r1, int l1){
-		if(r >= l){
-			hands[0] = r;
-			hands[1] = l;
-		} else {
-			hands[0] = l;
-			hands[1] = r;
-		}
-		if(r1 >= l1){
-			hands[2] = r1;
-			hands[3] = l1;
-		} else {
-			hands[2] = l1;
-			hands[3] = r1;
-		}
+	public Gamestate(int l, int r, int l1, int r1){
+		hands[0] = Math.max(l, r);
+		hands[1] = Math.min(l, r);
+		hands[2] = Math.max(l1, r1);
+		hands[3] = Math.min(l1, r1);
+		turn = 0;
 	}
 	
 	public int checkWin(){
@@ -35,35 +27,37 @@ public class Gamestate {
 		}
 	}
 	
-	public int add(int k, int n){
-		if(k % 5 == 0){
-			return -1;
-		}
-		String temp = Integer.toString(k, 2);
-		if(temp.length()  < 4){
-			int q = 4 - temp.length();
-			String t = "";
-			for(int i = 0; i < q; i++){
-				t += "0";
-			}
-			temp += t;
-		}
-		String t1 = temp.substring(0, 2);
-		String t2 = temp.substring(2);
-		int i1 = Integer.parseInt(t1, 2);
-		int i2 = Integer.parseInt(t2, 2);
-		if(t1.substring(0, 1).equals(t2.substring(0, 1))){
-			hands[i2] += n + 1;
-			hands[i1] -= n + 1;
-			return 0;
-		} else {
-			hands[i2] += hands[i1];
-			return 1;
+	public void add(int k, String id){
+		if (id.equals("firstleft")) {
+			hands[0] = (hands[0] + 1) % 5;
 		}
 	}
 	
 	public String toString(){
-		return String.valueOf(hands[0]) + String.valueOf(hands[1]) + String.valueOf(hands[2]) + String.valueOf(hands[3]);
+//		return String.valueOf(hands[0]) + String.valueOf(hands[1]) + String.valueOf(hands[2]) + String.valueOf(hands[3]);
+		String result = "";
+		int space1 = 8 - (hands[0] + hands[1]);
+		for(int i = 0; i < hands[0]; i++) {
+			result += "|";
+		}
+		for(int i = 0; i < space1; i++) {
+			result += " ";
+		}
+		for(int i = 0; i < hands[1]; i++) {
+			result += "|";
+		}
+		result += "\n";
+		int space2 = 8 - (hands[2] + hands[3]);
+		for(int i = 0; i < hands[2]; i++) {
+			result += "|";
+		}
+		for(int i = 0; i < space2; i++) {
+			result += " ";
+		}
+		for(int i = 0; i < hands[3]; i++) {
+			result += "|";
+		}
+		return result;
 	}
 	
 	public boolean equals(Object obj){
@@ -71,6 +65,7 @@ public class Gamestate {
 	}
 	
 	public int hashCode(){
-		return Integer.parseInt(String.valueOf(hands[0]) + String.valueOf(hands[1]) + String.valueOf(hands[2]) + String.valueOf(hands[3]));
+		return Integer.parseInt(String.valueOf(hands[0])) * 1000 + Integer.parseInt(String.valueOf(hands[1])) * 100
+				+ Integer.parseInt(String.valueOf(hands[2])) * 10 + Integer.parseInt(String.valueOf(hands[3]));
 	}
 }
