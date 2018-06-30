@@ -1,1 +1,1 @@
-# Rock Paper Scissors Exploration
+# Chopsticks (Game) exploration
