@@ -20,15 +20,11 @@ public class Test {
         rps.addAttribute("ui.antialias");
         rps.addAttribute("ui.stylesheet", "url(file:///Users/kevinzhang/Documents/CS/java-experiments/rock-paper-scissors/src/rpsgame/styles.css)");
 
-/*        graph.addNode("A");
-        graph.addNode("B");
-        graph.addEdge("AB", "A", "B");
-        graph.display();*/
-
         bfs(seen, start, rps);
 //        System.out.println(seen.size());
         rps.display();
-	}
+
+    }
 
 
 	public static void dfsRecurse(HashSet<GameState> s, GameState curr) {
